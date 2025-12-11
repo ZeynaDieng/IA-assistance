@@ -1,8 +1,8 @@
-# SamaPlanner
+# Zeii - Assistant IA de Planification
 
 **Assistant de planification intelligent avec chat conversationnel**
 
-SamaPlanner est un assistant personnel qui transforme la façon dont vous organisez votre journée. Grâce à une interface conversationnelle multimodale (texte + vocal) et à l'intelligence artificielle, créez et gérez vos plannings de manière naturelle et intuitive.
+Zeii est un assistant personnel qui transforme la façon dont vous organisez votre journée. Grâce à une interface conversationnelle multimodale (texte + vocal) et à l'intelligence artificielle, créez et gérez vos plannings de manière naturelle et intuitive.
 
 ---
 
@@ -324,4 +324,3 @@ L'application est en développement actif avec les fonctionnalités principales 
 ---
 
 **Développé avec ❤️ pour simplifier l'organisation quotidienne**
-
