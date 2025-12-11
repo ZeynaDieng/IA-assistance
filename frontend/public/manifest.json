@@ -1,0 +1,44 @@
+{
+  "name": "Zeii - Assistant Vocal Intelligent",
+  "short_name": "Zeii",
+  "description": "Organise ta journée en parlant. Zeii transforme ta voix en planning intelligent.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#6C3EF1",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "lifestyle"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Enregistrer",
+      "short_name": "Record",
+      "description": "Enregistrer un nouveau vocal",
+      "url": "/record",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Tâches",
+      "short_name": "Tasks",
+      "description": "Voir mes tâches",
+      "url": "/tasks",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
+  ]
+}
+

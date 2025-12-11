@@ -1,0 +1,186 @@
+{
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "add": "Ajouter",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "confirm": "Confirmer",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "nav": {
+    "home": "Accueil",
+    "tasks": "Tâches",
+    "calendar": "Calendrier",
+    "stats": "Statistiques",
+    "profile": "Profil",
+    "settings": "Paramètres",
+    "chat": "Chat",
+    "notifications": "Notifications"
+  },
+  "home": {
+    "title": "Prête pour aujourd'hui ?",
+    "subtitle": "Organisez votre journée",
+    "startRecording": "Commencer l'enregistrement",
+    "noTasks": "Aucune tâche pour aujourd'hui",
+    "tasksRemaining": "{count} tâche restante",
+    "tasksRemaining_plural": "{count} tâches restantes"
+  },
+  "tasks": {
+    "title": "Tâches",
+    "all": "Tous",
+    "today": "Aujourd'hui",
+    "week": "Cette semaine",
+    "completed": "Complétées",
+    "noTasks": "Aucune tâche",
+    "addTask": "Ajouter une tâche",
+    "editTask": "Modifier la tâche",
+    "deleteTask": "Supprimer la tâche",
+    "completeTask": "Marquer comme complétée",
+    "postponeTask": "Reporter",
+    "priority": "Priorité",
+    "duration": "Durée",
+    "deadline": "Échéance",
+    "scheduledAt": "Planifié pour",
+    "status": "Statut",
+    "pending": "En attente",
+    "inProgress": "En cours",
+    "completed": "Complétée",
+    "cancelled": "Annulée",
+    "postponed": "Reportée"
+  },
+  "calendar": {
+    "title": "Calendrier",
+    "today": "Aujourd'hui",
+    "noTasks": "Aucune tâche ce jour",
+    "tasksCount": "{count} tâche",
+    "tasksCount_plural": "{count} tâches"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "subtitle": "Personnalisez votre planification",
+    "work": {
+      "title": "Travail",
+      "workHours": "Heures de travail",
+      "workDays": "Jours de travail",
+      "lunchBreak": "Pause déjeuner"
+    },
+    "planning": {
+      "title": "Planification",
+      "preferredDuration": "Durée préférée",
+      "taskBuffer": "Pause entre tâches",
+      "energyLevels": "Niveaux d'énergie",
+      "morning": "Matin",
+      "afternoon": "Après-midi",
+      "evening": "Soir",
+      "low": "Faible",
+      "medium": "Moyen",
+      "high": "Élevé",
+      "categoryDurations": "Durées par catégorie",
+      "newCategory": "Nouvelle catégorie",
+      "advancedOptions": "Options avancées",
+      "maxTasksPerDay": "Max tâches par jour",
+      "preferMorning": "Préférer le matin",
+      "allowOverlap": "Autoriser chevauchement"
+    },
+    "reminders": {
+      "title": "Rappels",
+      "beforeTask": "Rappel avant tâche normale",
+      "beforeUrgent": "Rappel avant tâche urgente",
+      "earlyTasks": "Rappel veille (tâches matinales)",
+      "minutes": "minutes avant",
+      "hours": "heures avant"
+    },
+    "assistant": {
+      "title": "Assistant IA",
+      "assistantName": "Nom de l'assistant",
+        "assistantNamePlaceholder": "Zeii",
+      "assistantNameHint": "Personnalisez le nom de votre assistant IA",
+      "voiceResponse": "Réponses vocales",
+      "voiceResponseHint": "Activer les réponses vocales de l'assistant"
+    },
+    "general": {
+      "title": "Général",
+      "language": "Langue",
+      "french": "Français",
+      "english": "English"
+    }
+  },
+  "chat": {
+    "title": "Assistant IA",
+    "subtitle": "Planification intelligente",
+    "emptyState": {
+      "title": "Commencez une conversation",
+      "description": "Posez vos questions ou envoyez un message vocal pour obtenir de l'aide avec votre planning"
+    },
+    "clear": "Effacer",
+    "clearConfirm": "Voulez-vous effacer toute la conversation ?",
+    "cleared": "Conversation effacée"
+  },
+  "profile": {
+    "title": "Profil",
+    "statistics": "Statistiques",
+    "completedTasks": "Tâches complétées",
+    "currentStreak": "Série actuelle",
+    "days": "jours",
+    "settings": "Paramètres",
+    "notifications": "Notifications",
+    "logout": "Déconnexion"
+  },
+  "stats": {
+    "title": "Statistiques",
+    "overview": "Vue d'ensemble",
+    "productivity": "Productivité",
+    "completionRate": "Taux de complétion",
+    "tasksCompleted": "Tâches complétées",
+    "tasksCreated": "Tâches créées"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "noNotifications": "Aucune notification",
+    "markAsRead": "Marquer comme lu",
+    "delete": "Supprimer"
+  },
+  "auth": {
+    "phone": {
+      "title": "Entrez votre numéro",
+      "subtitle": "Nous vous enverrons un code de vérification",
+      "phoneNumber": "Numéro de téléphone",
+      "continue": "Continuer"
+    },
+    "otp": {
+      "title": "Vérification",
+      "subtitle": "Entrez le code reçu",
+      "code": "Code de vérification",
+      "verify": "Vérifier",
+      "resend": "Renvoyer le code"
+    },
+    "pin": {
+      "title": "Créez votre code PIN",
+      "subtitle": "Utilisez ce code pour vous connecter",
+      "pin": "Code PIN",
+      "confirm": "Confirmer"
+    },
+    "login": {
+      "title": "Connexion",
+      "subtitle": "Entrez votre numéro et votre code PIN",
+      "phoneNumber": "Numéro de téléphone",
+      "pin": "Code PIN",
+      "login": "Se connecter",
+      "forgotPin": "Mot de passe oublié ?"
+    }
+  },
+  "onboarding": {
+    "title": "Bienvenue sur Zeii",
+    "subtitle": "Organisez votre journée en parlant",
+    "getStarted": "Commencer"
+  }
+}
+

@@ -1,0 +1,298 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  phoneNumber String   @unique
+  firstName   String? // Temporairement optionnel pour migration
+  lastName    String? // Temporairement optionnel pour migration
+  pinHash     String? // Optionnel, commenté temporairement
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  tasks         Task[]
+  plannings     Planning[]
+  reminders     Reminder[]
+  audioLogs     AudioLog[]
+  routines      Routine[]
+  otps          Otp[]
+  deviceTokens  DeviceToken[]
+  aiFeedbacks   AiFeedback[]
+  userPreferences UserPreferences?
+  chatMessages  ChatMessage[]
+
+  @@index([phoneNumber])
+}
+
+model Otp {
+  id          String     @id @default(cuid())
+  phoneNumber String
+  code        String // Code OTP (6 chiffres)
+  expiresAt   DateTime // Expiration (5 minutes)
+  verified    Boolean    @default(false)
+  purpose     OtpPurpose @default(REGISTER) // REGISTER ou LOGIN
+  createdAt   DateTime   @default(now())
+
+  // Relations
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([phoneNumber])
+  @@index([expiresAt])
+  @@index([verified])
+}
+
+enum OtpPurpose {
+  REGISTER
+  LOGIN
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  priority    Priority   @default(MEDIUM)
+  duration    Int // en minutes
+  scheduledAt DateTime // date et heure prévues
+  deadline    DateTime?
+  status      TaskStatus @default(PENDING)
+  completedAt DateTime?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  // Relations
+  userId     String
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planningId String?
+  planning   Planning?  @relation(fields: [planningId], references: [id], onDelete: SetNull)
+  reminders  Reminder[]
+
+  @@index([userId])
+  @@index([scheduledAt])
+  @@index([status])
+  @@index([planningId])
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  POSTPONED
+}
+
+model Planning {
+  id          String         @id @default(cuid())
+  date        DateTime       @db.Date
+  generatedAt DateTime       @default(now())
+  validatedAt DateTime?
+  status      PlanningStatus @default(DRAFT)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  // Relations
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks      Task[]
+  audioLogId String?   @unique
+  audioLog   AudioLog? @relation(fields: [audioLogId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, date])
+  @@index([userId])
+  @@index([date])
+}
+
+enum PlanningStatus {
+  DRAFT
+  VALIDATED
+  ARCHIVED
+}
+
+model Reminder {
+  id          String         @id @default(cuid())
+  scheduledAt DateTime
+  sentAt      DateTime?
+  status      ReminderStatus @default(PENDING)
+  createdAt   DateTime       @default(now())
+
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  taskId String
+  task   Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([scheduledAt])
+  @@index([status])
+}
+
+enum ReminderStatus {
+  PENDING
+  SENT
+  CANCELLED
+}
+
+model AudioLog {
+  id            String   @id @default(cuid())
+  fileUrl       String
+  transcription String?
+  duration      Int // en secondes
+  createdAt     DateTime @default(now())
+
+  // Relations
+  userId   String
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  planning Planning?
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+model Routine {
+  id             String           @id @default(cuid())
+  title          String
+  description    String?
+  frequency      RoutineFrequency @default(DAILY)
+  time           String? // Format HH:mm (ex: "08:00")
+  daysOfWeek     String[]         @default([]) // ["MONDAY", "TUESDAY", ...] pour WEEKLY
+  duration       Int // en minutes
+  priority       Priority         @default(MEDIUM)
+  isActive       Boolean          @default(true)
+  expiresAt      DateTime? // Date d'expiration (1 mois après création) - nullable pour migration
+  autoRenew      Boolean          @default(true) // Renouvellement automatique à l'expiration
+  renewalAskedAt DateTime? // Date à laquelle on a demandé le renouvellement
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  // Relations
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isActive])
+  @@index([expiresAt])
+  @@index([autoRenew])
+}
+
+enum RoutineFrequency {
+  DAILY // Tous les jours
+  WEEKLY // Certains jours de la semaine
+  WEEKDAYS // Du lundi au vendredi
+  WEEKENDS // Samedi et dimanche
+  CUSTOM // Jours personnalisés
+}
+
+model DeviceToken {
+  id        String   @id @default(cuid())
+  token     String   @unique // FCM device token
+  deviceId  String?  // Optional device identifier
+  platform  String?  // 'ios', 'android', 'web'
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([token])
+}
+
+model UserPreferences {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workHoursStart  String?  // Format HH:mm (ex: "09:00")
+  workHoursEnd    String?  // Format HH:mm (ex: "17:00")
+  preferredTaskDuration Int? // Durée par défaut en minutes
+  energyMorning   String?  // "LOW" | "MEDIUM" | "HIGH"
+  energyAfternoon String?  // "LOW" | "MEDIUM" | "HIGH"
+  energyEvening   String?  // "LOW" | "MEDIUM" | "HIGH"
+  timezone        String?  @default("Africa/Dakar")
+  language        String?  @default("fr")
+  
+  // Pause déjeuner
+  lunchBreakStart   String?  // Format HH:mm (ex: "12:00")
+  lunchBreakEnd     String?  // Format HH:mm (ex: "13:00")
+  lunchBreakEnabled Boolean? @default(true)
+  
+  // Buffer entre tâches
+  taskBufferMinutes Int? @default(15) // Minutes entre chaque tâche (5, 10, 15, 20, 30)
+  
+  // Jours de travail
+  workDays String[] @default(["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY"]) // Jours de la semaine
+  
+  // Préférences de rappels
+  reminderBeforeTask    Int? @default(15) // Minutes avant la tâche (15, 30, 45, 60)
+  reminderForUrgent     Int? @default(45) // Minutes avant tâches urgentes (30, 45, 60)
+  reminderForEarlyTasks Boolean? @default(true) // Rappel la veille si tâche avant 10h
+  
+  // Durées par catégorie
+  categoryDurations Json? // Object: { "call": 15, "meeting": 60, "admin": 30 }
+  
+  // Préférences de planification avancées
+  autoScheduleTasks Boolean? @default(true) // Planification automatique ou validation manuelle
+  maxTasksPerDay    Int? // Nombre maximum de tâches par jour (null = illimité)
+  preferMorningTasks Boolean? @default(false) // Préférer placer les tâches le matin
+  allowTaskOverlap  Boolean? @default(false) // Autoriser le chevauchement de tâches
+  
+  // Préférences de l'assistant IA
+  assistantName      String?  @default("Zeii") // Nom personnalisé de l'assistant IA
+  voiceResponseEnabled Boolean? @default(true) // Activer/désactiver les réponses vocales (TTS)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model AiFeedback {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transcription     String   // Transcription originale
+  originalExtraction Json    // Extraction originale de l'IA (JSON)
+  userCorrections   Json     // Corrections utilisateur (JSON)
+  feedbackType      String   // "task_added" | "task_removed" | "task_modified" | "routine_added" | "routine_removed"
+  errorType         String?  // "invented_task" | "invented_routine" | "wrong_priority" | "wrong_time" | "other"
+  notes             String?  // Notes optionnelles de l'utilisateur
+  processed         Boolean  @default(false) // Si le feedback a été traité pour améliorer l'IA
+  createdAt         DateTime @default(now())
+
+  @@index([userId])
+  @@index([processed])
+  @@index([errorType])
+  @@index([createdAt])
+}
+
+model ChatMessage {
+  id            String   @id @default(cuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role          String   // "user" | "assistant"
+  content       String   // Texte du message
+  audioUrl      String?  // URL du fichier audio (si message vocal)
+  isVoice       Boolean  @default(false) // true si message vocal
+  transcription String?  // Transcription si message vocal utilisateur
+  duration      Int?     // Durée en secondes (si message vocal)
+  metadata      String?  // JSON metadata (e.g., proposedTasks)
+  createdAt     DateTime @default(now())
+  
+  @@index([userId])
+  @@index([userId, createdAt])
+}
